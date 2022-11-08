@@ -35,9 +35,15 @@ soup = BeautifulSoup(webpage, "html.parser")
 results = soup.select("li ul li h3")
 names = [result.text.strip() for result in results]
 
+song_uris = []
+
 for name in names:
     track = sp.search(q=f"track:{name} year:{user_input_year}", type="track")
     try:
-        print(track["tracks"]["items"][0]["uri"])
+        song_uris.append(track["tracks"]["items"][0]["uri"])
     except IndexError:
         print("Can't find song on Spotify")
+
+playlist = sp.user_playlist_create(user=current_user_id, name=f"{user_response} Billboard 100", public=False)
+
+sp.playlist_add_items(playlist_id=playlist["id"], items=song_uris)
