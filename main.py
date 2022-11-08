@@ -1,6 +1,14 @@
 from bs4 import BeautifulSoup
 import requests
 import datetime
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+from config import CLIENT_ID, CLIENT_SECRET, CLIENT_URI
+
+scope = 'playlist-modify-private'
+
+auth_manager = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=CLIENT_URI, scope=scope)
+sp = spotipy.Spotify(auth_manager=auth_manager)
 
 user_response = input("What year do you want to travel to? Type the date in this format YYYY-MM-DD: ")
 
